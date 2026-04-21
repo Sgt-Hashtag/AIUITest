@@ -10,24 +10,24 @@
 ShapeWindow::ShapeWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    // 1. Setup Scene & View
+    // Setup Scene & View
     m_scene = new QGraphicsScene(this);
     m_scene->setSceneRect(0, 0, 800, 600);
     
     m_view = new QGraphicsView(m_scene, this);
     m_view->setRenderHint(QPainter::Antialiasing);
 
-    // 2. Add Initial Shapes (So AI has something to work with)
+    // Adding Initial Shapes (So AI has something to work with)
     auto* rect = m_scene->addRect(100, 100, 100, 100, QPen(Qt::black), QBrush(Qt::gray));
     rect->setFlag(QGraphicsItem::ItemIsMovable);
     
     auto* circle = m_scene->addEllipse(300, 100, 100, 100, QPen(Qt::black), QBrush(Qt::blue));
     circle->setFlag(QGraphicsItem::ItemIsMovable);
 
-    // 3. Setup AI Controller
+    // AI Controller
     m_aiController = new AiController(m_scene, this);
 
-    // 4. Setup UI Layout
+    // Setup UI Layout
     QWidget *centralWidget = new QWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
     
@@ -51,7 +51,7 @@ ShapeWindow::ShapeWindow(QWidget *parent)
     setWindowTitle("AI Shape Demo");
     resize(900, 700);
 
-    // 5. Connections
+    // Connections
     connect(sendBtn, &QPushButton::clicked, this, &ShapeWindow::handlePrompt);
     connect(m_promptInput, &QLineEdit::returnPressed, this, &ShapeWindow::handlePrompt);
 }

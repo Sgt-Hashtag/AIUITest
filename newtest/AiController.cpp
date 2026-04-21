@@ -13,10 +13,10 @@ AiController::AiController(QGraphicsScene* scene, QObject* parent)
 void AiController::processPrompt(const QString& prompt) {
     qDebug() << "AI Received Prompt:" << prompt;
     
-    // 1. Simulate LLM response (In production, replace this with actual API call)
+    // Simulate LLM response
     QJsonArray commands = mockLlmResponse(prompt);
     
-    // 2. Execute changes on the UI
+    // Execute changes on the UI
     executeCommands(commands);
 }
 
@@ -27,7 +27,7 @@ QJsonArray AiController::mockLlmResponse(const QString& prompt) {
 
     QString lowerPrompt = prompt.toLower();
 
-    // --- 1. CHECK FOR TARGETS ---
+    // CHECK FOR TARGETS ---
     bool targetRect = lowerPrompt.contains("rect") || lowerPrompt.contains("square") || lowerPrompt.contains("box");
     bool targetEllipse = lowerPrompt.contains("circle") || lowerPrompt.contains("ellipse") || lowerPrompt.contains("oval");
     bool targetAll = lowerPrompt.contains("all") || (!targetRect && !targetEllipse); // Default to all if no specific shape mentioned? Let's be safe: Default to NONE unless specified.
