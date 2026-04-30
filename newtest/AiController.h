@@ -1,8 +1,15 @@
 #pragma once
 #include <QObject>
 #include <QGraphicsScene>
-#include <QGraphicsItem>
-#include <QJsonArray>
+#include <vector>
+#include <string>
+
+// Structure to hold an Intent and its pre-computed vector
+struct SemanticIntent {
+    std::string name;       // e.g., "add_circle"
+    std::string description;// e.g., "Add a new blue circle to the canvas"
+    std::vector<float> vector; // The 384-dim embedding
+};
 
 class AiController : public QObject {
     Q_OBJECT
@@ -14,10 +21,13 @@ public:
 
 private:
     QGraphicsScene* m_scene;
+    std::vector<SemanticIntent> m_intents;
+
+    void precomputeIntentVectors();
     
-    // Simulates LLM output for demo purposes
-    QJsonArray mockLlmResponse(const QString& prompt);
+    // Helper: Execute logic based on the matched intent name
+    void executeAction(const std::string& intentName, const QString& prompt);
     
-    // Executes the JSON commands on the Qt Scene
-    void executeCommands(const QJsonArray& commands);
+    // Helper: Math utility for Cosine Similarity
+    float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b);
 };
